@@ -1,0 +1,91 @@
+type Radio {
+  _id: ID!
+  times: Int!
+  themes: [Theme]
+  youtubeUrl: String
+  broadCastingDate: String
+  createdAt: String
+  themeImage: String
+}
+type Theme {
+  _id: ID!
+  radioId: ID
+  comments: [Comment]
+  thumbnail: String
+  title: String!
+  description: String
+  createdAt: String
+}
+type Comment {
+  _id: ID!
+  themeId: Theme
+  radioName: String
+  message: String
+  createdAt: String
+  likes: Int
+}
+type ScrollRadios {
+  radios: [Radio]
+  hasMore: Boolean
+}
+type ScrollThemeComments {
+  comments: [Comment]
+  hasMore: Boolean
+}
+
+type Query {
+  radios(skip: Int,limit: Int): [Radio]
+  radio(radioId: ID!): Radio
+  radioThemes(radioId: ID!): [Theme]
+  fetchMoreRadios(skip: Int, limit: Int): ScrollRadios
+  themes: [Theme]
+  theme(themeId: ID!): Theme
+  themeComments(themeId: ID, skip: Int, limit: Int): ScrollThemeComments
+  comments(skip: Int, limit: Int): [Comment]
+  comment(_id: ID!): Comment
+}
+type Mutation {
+  createRadio(data: CreateRadioInput): Radio
+  deleteRadio(radioId: ID!): Radio
+  updateRadio(radioId: ID!, data: UpdateRadioInput): Radio
+  createTheme(data: CreateThemeInput): Theme
+  deleteTheme(themeId: ID!): Theme
+  updateTheme(themeId: ID!, data: UpdateThemeInput): Theme
+  createComment(data: CreateCommentInput): Comment
+  deleteComment(commentId: ID!): Comment
+  updateComment(commentId: ID!, data: UpdateCommentInput): Comment
+  likeComment(commentId: ID!): Comment
+  unlikeComment(commentId: ID!): Comment
+  resetDB: Comment
+  resetThemeComments(themeId: ID!): Comment
+}
+input CreateRadioInput {
+  times: Int!
+  youtubeUrl: String!
+  broadCastingDate: String!
+}
+input UpdateRadioInput {
+  times: Int
+  youtubeUrl: String
+}
+input CreateThemeInput {
+  thumbnail: String
+  title: String!
+  radioId: ID
+  description: String
+}
+input UpdateThemeInput {
+  thumbnail: String
+  title: String
+  description: String
+}
+input CreateCommentInput {
+  message: String!
+  radioName: String!
+  themeId: ID!
+}
+input UpdateCommentInput {
+  message: String
+  radioName: String
+  likes: Int
+}
