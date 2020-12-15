@@ -96,11 +96,11 @@ const resolvers = {
 
 			return deletedRadio;
 		},
-		updateRadio: async (_, { radioId, data: { youtubeUrl, times } }, { Radio }) => {
+		updateRadio: async (_, { radioId, data: { youtubeUrl, times, broadCastingDate } }, { Radio }) => {
 			try {
 				const updateData = {};
-				if (thumbnail) updateData.thumbnail = thumbnail;
 				if (youtubeUrl) updateData.youtubeUrl = youtubeUrl;
+				if (broadCastingDate) updateData.broadCastingDate = broadCastingDate;
 				if (times) updateData.times = times;
 
 				return Radio.findOneAndUpdate({ _id: radioId }, { $set: updateData }, { new: true });
