@@ -22,6 +22,7 @@ type Comment {
   radioName: String
   message: String
   createdAt: String
+  userId: ID
   likes: Int
 }
 type ScrollRadios {
@@ -84,6 +85,7 @@ input CreateCommentInput {
   message: String!
   radioName: String!
   themeId: ID!
+  userId: ID
 }
 input UpdateCommentInput {
   message: String

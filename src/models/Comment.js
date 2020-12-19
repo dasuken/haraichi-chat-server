@@ -13,6 +13,9 @@ const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true
   },
+  userId: {
+    type: String,
+  },
   createdAt: {
     type: String,
     default: new Date().toISOString()

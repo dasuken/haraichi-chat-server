@@ -137,7 +137,7 @@ const resolvers = {
 				Promise.reject(error);
 			}
 		},
-		createComment: async (_, { data: { message, radioName, themeId } }, { Comment, Theme }) => {
+		createComment: async (_, { data: { message, radioName, themeId, userId } }, { Comment, Theme }) => {
 			const existComment = await Comment.exists({
 				message,
 				themeId
@@ -148,11 +148,11 @@ const resolvers = {
 				message,
 				radioName,
 				themeId,
+				userId,
 				createdAt: new Date().toISOString()
 			}).save();
-			console.log('cretedAt', newComment.createdAt);
 
-			const theme = await Theme.findOneAndUpdate({ _id: themeId }, { $push: { comments: newComment._id } });
+			await Theme.findOneAndUpdate({ _id: themeId }, { $push: { comments: newComment._id } });
 			return newComment;
 		},
 		deleteComment: async (_, { commentId }, { Comment, Theme }) => {
