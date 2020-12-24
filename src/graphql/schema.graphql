@@ -54,6 +54,7 @@ type Mutation {
   updateTheme(themeId: ID!, data: UpdateThemeInput): Theme
   createComment(data: CreateCommentInput): Comment
   deleteComment(commentId: ID!): Comment
+  deleteManyComments(themeId: ID!, commentIds: [ID!]): Comment
   updateComment(commentId: ID!, data: UpdateCommentInput): Comment
   likeComment(commentId: ID!): Comment
   unlikeComment(commentId: ID!): Comment

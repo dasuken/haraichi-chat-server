@@ -160,6 +160,11 @@ const resolvers = {
 			await Theme.findOneAndUpdate({ _id: deletedComment.themeId }, { $pull: { comments: deletedComment._id } });
 			return deletedComment;
 		},
+		deleteManyComments: async (_, { themeId, commentIds }, { Comment, Theme }) => {
+			await Comment.deleteMany({ _id: { $in: commentIds } });
+			await Theme.updateMany({ _id: themeId }, { $pull: { comments: { $in: commentIds } } }, { multi: true });
+			return
+		},
 		updateComment: async (_, { commentId, data: { message, radioName, likes } }, { Comment }) => {
 			try {
 				const updateData = {};
