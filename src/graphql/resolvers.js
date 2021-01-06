@@ -68,7 +68,15 @@ const resolvers = {
 				path: 'themeId',
 				model: 'Theme'
 			});
-		}
+		},
+		commentResponses: (_, { commentId }, { Response }) => {
+			return Response.find({ commentId })
+		},
+		allResponses: async(_, args, { Response }) => {
+			const response = await Response.find({})
+
+			return response
+		},
 	},
 	Mutation: {
 		createRadio: async (_, { data: { youtubeUrl, times, broadCastingDate } }, { Radio }) => {
@@ -201,7 +209,24 @@ const resolvers = {
 			const deletedComment = await Comment.deleteMany({ themeId });
 			await Theme.findOneAndUpdate({ _id: themeId }, { comments: [] });
 			return deletedComment;
-		}
+		},
+		createResponse: async(_, { commentId, data: { radioName, message } }, { Comment, Response }) => {
+			const response = await new Response({
+				commentId,
+				radioName,
+				message,
+				createdAt: new Date().toISOString()
+			}).save()
+
+			const comment = await Comment.findOneAndUpdate({ _id: commentId }, { $push: { responses: response._id } })
+			return response
+		},
+		resetCommentResponse: async(_, { commentId}, { Comment, Response }) => {
+			const response = await Response.deleteMany({ commentId })
+			const deleteComment = await Comment.findOneAndUpdate({ _id: commentId }, { responses: [] }, { upsert: true })
+
+			return deleteComment
+		},
 	}
 };
 

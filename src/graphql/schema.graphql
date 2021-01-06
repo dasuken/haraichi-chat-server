@@ -24,6 +24,14 @@ type Comment {
   createdAt: String
   userId: ID
   likes: Int
+  responses: [ID]
+}
+type Response {
+  _id: ID!
+  message: String!
+  radioName: String!
+  commentId: String!
+  createdAt: String!
 }
 type ScrollRadios {
   radios: [Radio]
@@ -44,7 +52,10 @@ type Query {
   themeComments(themeId: ID, skip: Int, limit: Int): ScrollThemeComments
   comments(skip: Int, limit: Int): [Comment]
   comment(_id: ID!): Comment
+  commentResponses(commentId: ID!): [Response]
+  allResponses: [Response]
 }
+
 type Mutation {
   createRadio(data: CreateRadioInput): Radio
   deleteRadio(radioId: ID!): Radio
@@ -60,6 +71,8 @@ type Mutation {
   unlikeComment(commentId: ID!): Comment
   resetDB: Comment
   resetThemeComments(themeId: ID!): Comment
+  createResponse(commentId: ID!, data: CreateResponseInput): Response
+  resetCommentResponse(commentId: ID!): Comment
 }
 input CreateRadioInput {
   times: Int!
@@ -92,4 +105,8 @@ input UpdateCommentInput {
   message: String
   radioName: String
   likes: Int
+}
+input CreateResponseInput {
+  message: String!
+  radioName: String!
 }

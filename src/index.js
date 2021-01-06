@@ -8,6 +8,7 @@ const resolvers = require('./graphql/resolvers');
 const Comment = require('./models/Comment');
 const Theme = require('./models/Theme');
 const Radio = require('./models/Radio');
+const Response = require('./models/Response');
 
 mongoose
 	.connect(
@@ -28,7 +29,7 @@ const server = new ApolloServer({
 		message: error.message.replace('Context creation failed:', '')
 	}),
 	context: async ({ req }) => {
-		return { Comment, Theme, Radio };
+		return { Comment, Theme, Radio, Response};
 	}
 });
 

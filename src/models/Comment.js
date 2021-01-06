@@ -23,7 +23,11 @@ const CommentSchema = new mongoose.Schema({
   likes: {
     type: Number,
     default: 0
+  },
+  responses: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Response"
   }
-})
+}, {strict:false})
 
 module.exports = mongoose.model('Comment', CommentSchema);
