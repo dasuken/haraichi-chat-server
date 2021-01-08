@@ -53,6 +53,7 @@ type Query {
   comments(skip: Int, limit: Int): [Comment]
   comment(_id: ID!): Comment
   commentResponses(commentId: ID!): [Response]
+  commentResponseCounts(commentId: ID!): Int!
   allResponses: [Response]
 }
 

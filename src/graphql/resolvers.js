@@ -70,7 +70,10 @@ const resolvers = {
 			});
 		},
 		commentResponses: (_, { commentId }, { Response }) => {
-			return Response.find({ commentId })
+			return Response.find({ commentId }).sort('-createdAt')
+		},
+		commentResponseCounts: (_, { commentId }, { Response }) => {
+			return Response.countDocuments({commentId})
 		},
 		allResponses: async(_, args, { Response }) => {
 			const response = await Response.find({})
