@@ -14,6 +14,9 @@ const ResponseSchema = new mongoose.Schema({
     ref: "Comment",
     required: true
   },
+  userId: {
+    type: String,
+  },
   createdAt: {
     type: String,
     default: new Date().toISOString()

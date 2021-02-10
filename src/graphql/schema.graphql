@@ -32,6 +32,7 @@ type Response {
   radioName: String!
   commentId: String!
   createdAt: String!
+  userId: ID
 }
 type ScrollRadios {
   radios: [Radio]
@@ -73,6 +74,7 @@ type Mutation {
   resetDB: Comment
   resetThemeComments(themeId: ID!): Comment
   createResponse(commentId: ID!, data: CreateResponseInput): Response
+  deleteResponse(responseId: ID!): Response
   resetCommentResponse(commentId: ID!): Comment
 }
 input CreateRadioInput {
@@ -110,4 +112,5 @@ input UpdateCommentInput {
 input CreateResponseInput {
   message: String!
   radioName: String!
+  userId: ID
 }

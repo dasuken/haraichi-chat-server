@@ -213,19 +213,26 @@ const resolvers = {
 			await Theme.findOneAndUpdate({ _id: themeId }, { comments: [] });
 			return deletedComment;
 		},
-		createResponse: async(_, { commentId, data: { radioName, message } }, { Comment, Response }) => {
+		createResponse: async(_, { commentId, data: { radioName, message, userId } }, { Comment, Response }) => {
+			console.log("createResponse userId", userId);
 			const response = await new Response({
 				commentId,
 				radioName,
 				message,
+				userId,
 				createdAt: new Date().toISOString()
 			}).save()
 
-			const comment = await Comment.findOneAndUpdate({ _id: commentId }, { $push: { responses: response._id } })
+			await Comment.findOneAndUpdate({ _id: commentId }, { $push: { responses: response._id } })
 			return response
 		},
+		deleteResponse: async (_, { responseId }, { Response, Comment }) => {
+			const deletedResponse = await Response.findOneAndDelete({ _id: responseId })
+			await Comment.findOneAndUpdate({ _id: deletedResponse.commentId }, { $pull: { responses: deletedResponse._id } })
+			return deletedResponse
+		},
 		resetCommentResponse: async(_, { commentId}, { Comment, Response }) => {
-			const response = await Response.deleteMany({ commentId })
+			await Response.deleteMany({ commentId })
 			const deleteComment = await Comment.findOneAndUpdate({ _id: commentId }, { responses: [] }, { upsert: true })
 
 			return deleteComment
