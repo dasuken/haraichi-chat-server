@@ -18,7 +18,9 @@ const server = new ApolloServer({
   cors: true,
 	typeDefs,
 	resolvers,
-	cors: true,
+	cors: {
+		"origin": "*"
+	},
 	formatError: (error) => ({
 		name: error.name,
 		message: error.message.replace('Context creation failed:', '')
