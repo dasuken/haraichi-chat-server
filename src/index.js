@@ -18,7 +18,10 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	cors: {
-		"origin": "http://localhost:8081"
+		"origin": "*",
+		"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  	"preflightContinue": false,
+		"optionsSuccessStatus": 204
 	},
 	formatError: (error) => ({
 		name: error.name,
