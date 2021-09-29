@@ -15,7 +15,6 @@ serve()
 
 // apollo serve
 const server = new ApolloServer({
-  cors: true,
 	typeDefs,
 	resolvers,
 	cors: {
