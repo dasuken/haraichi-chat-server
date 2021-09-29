@@ -19,7 +19,7 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	cors: {
-		"origin": "*"
+		"origin": "http://localhost:8081"
 	},
 	formatError: (error) => ({
 		name: error.name,
